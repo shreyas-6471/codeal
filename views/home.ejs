@@ -1,0 +1,61 @@
+
+       <link rel="stylesheet" href="/css/user_profile.css">
+        <h1> This is codial </h1>
+        <p>Whenever server renders this page it goes to layout.ejs and everything is filled over there, We've not include this page explicitily.</p>
+
+   <div>
+         <% if(locals .user) { %>
+        <section id="user_posts">
+            <h3>Post to your Feed</h3>
+            <form id="shr" method="POST" action="/post_submit">
+             <textarea name="content" cols="30" rows="3"></textarea>
+             <button value="submit">Submit</button>
+            </form>
+        <% } %>
+        </section>
+        <% if(locals .user) { %>
+        <section id="display-posts-comments">
+            <div>
+            <% for(let i of post_List) { %>
+            
+                            <p> <%= i.content %> </p>
+                            <p> <%= i.user %></p>
+                            <form id="delete-post" action="/destroy" method="POST">
+                                <input type="hidden" name="shr" value="<%= i.id %>">
+                                <button value="delete">Delete post</button>
+                            </form>
+                            
+                            <% for(let j of comment_List) { %>
+                                <% if( i.id  ==  j.post ) { %>
+                                <p> <%= j.content %> </p>
+                                <form id="delete-comment" method="POST" action="/delete_comment">
+                                    <input type="hidden" name="shi" value="<%= j.id %>">
+                                    <button value="delete-comment">Delete Comment</button>
+                                </form>
+                                <% } %>
+                                <% } %>
+                            <section id="comments-sec">
+                                <form action='/comment_submit' method="POST">
+                                    <textarea name="content" cols="30" rows="2" placeholder="Type your comment here">
+                                    </textarea>
+                                    <input type="hidden" name="post" value="<%= i._id %>" >
+                                    <button value="submit">Submit</button>
+                                </form>
+                            </section>
+                        
+                   <% } %> 
+                
+                </div>
+                </section></div>
+        </section>
+<section>
+    <h4>Your Friends</h4>
+    <% for(let s of user_List) { %>
+        <form id="show_profile" method="POST" action="/profile">
+        <input type="hidden" name="ana" value="<%=s.id %>">
+        <button value="show_profile"><%= s.name %></button>
+        </form>
+    <%} %>
+</section>
+  <% } %>
+<script src="/js/home_post.js"></script>
